@@ -1,6 +1,6 @@
 package com.design.level.low.rate.limiter.model;
 
-import com.design.level.low.schedulers.Schedulers;
+import com.design.level.low.rate.limiter.schedulers.Schedulers;
 
 import java.util.concurrent.TimeUnit;
 
@@ -45,8 +45,9 @@ public class TokenBucketRateLimiter extends RateLimiter {
     private void refillToken() {
         Schedulers.SCHEDULED_EXECUTOR_SERVICE.scheduleWithFixedDelay(() -> {
             synchronized (this) {
-                this.tokenCount = Math.max(this.tokenCount + this.additionalToken, this.maxBucketSize);
+                this.tokenCount = Math.min(this.tokenCount + this.additionalToken, this.maxBucketSize);
+                this.lastUpdatedTS = System.currentTimeMillis();
             }
-        }, this.lastUpdatedTS, this.refillIntervalInMS, TimeUnit.MILLISECONDS);
+        }, this.refillIntervalInMS, this.refillIntervalInMS, TimeUnit.MILLISECONDS);
     }
 }

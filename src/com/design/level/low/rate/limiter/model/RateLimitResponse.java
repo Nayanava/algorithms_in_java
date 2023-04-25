@@ -16,4 +16,18 @@ public class RateLimitResponse {
         this.rateLimitRemaining = rateLimitRemaining;
         this.rateLimitRetryAfter = rateLimitRetryAfter;
     }
+
+    @Override
+    public String toString() {
+        if(this.isSuccessfulRequest) {
+            return "RateLimitResponse{" +
+                    "isSuccessfulRequest=" + isSuccessfulRequest +
+                    ", rateLimitRemaining=" + rateLimitRemaining +
+                    '}';
+        }
+        return "RateLimitResponse{" +
+                "isSuccessfulRequest=" + isSuccessfulRequest +
+                ", rateLimitRetryAfter=" + rateLimitRetryAfter +
+                '}';
+    }
 }

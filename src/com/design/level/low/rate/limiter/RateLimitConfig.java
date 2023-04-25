@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RateLimitConfig {
-    public static final Map<String, RateLimiter> apiRateLimitConfig = new HashMap<>();
-    private static void config() {
-        apiRateLimitConfig.put("/v1/someApi", new TokenBucketRateLimiter(5, 10, null, 5000));
-        apiRateLimitConfig.put("/v1/someOtherApi", new SlidingWindowRateLimiter());
+    public static final Map<String, RateLimiterType> apiRateLimitConfig = new HashMap<>();
+    public static void initConfig() {
+        apiRateLimitConfig.put("/v1/someApi", RateLimiterType.TOKEN_BUCKET);
+        apiRateLimitConfig.put("/v1/someOtherApi", RateLimiterType.SLIDING_WINDOW);
     }
 
-    public static RateLimiter getRateLimiter(String apiName) {
+    public static RateLimiterType getRateLimiter(String apiName) {
         return apiRateLimitConfig.get(apiName);
     }
 }
